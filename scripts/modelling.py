@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
 
 def tune_model(X_train, y_train, n_estimators, max_depth=5):
 
@@ -9,6 +10,7 @@ def tune_model(X_train, y_train, n_estimators, max_depth=5):
     return model, model.score(X_train, y_train)
 
 
-def prediction(model, X_test):
+def prediction_to_csv(model, X_test):
 
-    return model.predict(X_test)
+    # Set index=False to avoid writing row numbers as a column in the csv file
+    model.predict(X_test).to_csv('data/predictions.csv', index=False)   
