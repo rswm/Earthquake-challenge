@@ -13,7 +13,7 @@ def FeatureEngineering():
     tl = pd.read_csv(train_labels)
     
     #Merge data
-    cdf = pd.merge(df, targetdf, left_index=True, right_index=True)
+    cdf = pd.merge(tv, tl, left_index=True, right_index=True)
     
     #Drop missing target values
 
