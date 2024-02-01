@@ -17,7 +17,7 @@ def FeatureEngineering():
     
     #Drop missing target values
 
-    cdf  = combcdfdf.dropna(subset=['damage_grade'])
+    cdf  = cdf.dropna(subset=['damage_grade'])
 
     #More feature engineering will be done here
 
