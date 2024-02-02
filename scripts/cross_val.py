@@ -16,7 +16,7 @@ def find_best_score(X_train, y_train, start, stop, increment, base_parameters, m
         else:  # Assuming we're tuning 'max_depth' for XGBoost in this example
             temp_params['max_depth'] = i
         
-        best_params = cross_validate_hyperparameters(X_train, y_train, temp_params, model=model)
+        best_params = cross_validate_parameters(X_train, y_train, temp_params, model=model)
         
         # Assuming cross_validate_hyperparameters now just evaluates a single set of parameters
         # and returns its score directly for simplification
@@ -58,19 +58,3 @@ def cross_validate_parameters(X_train, y_train, parameters, model='XBG'):
     return best_params
 
 
-# Example usage:
-X_train, y_train = # your training data
-parameters_rfc = {
-    'n_estimators': [100, 200, 300],
-    'max_depth': [10, 20, 30]
-}
-parameters_xgb = {
-    'max_depth': [3, 6, 9],
-    'learning_rate': [0.01, 0.1, 0.2]
-}
-
-best_params_rfc = cross_validate_hyperparameters(X_train, y_train, parameters_rfc, model='RandomForest')
-best_params_xgb = cross_validate_hyperparameters(X_train, y_train, parameters_xgb, model='XBG')
-
-print("Best RandomForest Parameters:", best_params_rfc)
-print("Best XGB Parameters:", best_params_xgb)
