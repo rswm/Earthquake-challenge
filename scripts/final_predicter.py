@@ -1,5 +1,7 @@
 import pandas as pd
 from datetime import datetime
+import xgboost as xgb
+
 
 def run_and_save(fitted_model, selected_test_df, building_id):
     """
@@ -14,8 +16,16 @@ def run_and_save(fitted_model, selected_test_df, building_id):
     - 'data/predictions.csv' without a timestamp.
     - 'data/predictions_{timestamp}.csv' with a timestamp.
     """
-    # Make predictions using the selected column
-    y_pred = fitted_model.predict(selected_test_df)
+    # Create a DMatrix for the test data
+    d_test = xgb.DMatrix(selected_test_df)
+    
+    # Make predictions using the fitted model
+    y_pred = fitted_model.predict(d_test)
+    
+    # Add +1 to each prediction
+    y_pred = (y_pred + 1).astype(int)
+
+
 
     # Ensure building_id is a DataFrame for consistent concatenation
     if not isinstance(building_id, pd.DataFrame):
@@ -24,7 +34,7 @@ def run_and_save(fitted_model, selected_test_df, building_id):
         building_id_df = building_id
 
     # Create a DataFrame with building_id and y_pred
-    result_df = pd.concat([building_id_df, pd.DataFrame({'y_pred': y_pred})], axis=1)
+    result_df = pd.concat([building_id_df, pd.DataFrame({'damage_grade': y_pred})], axis=1)
 
     # Save the combined DataFrame to a CSV file
     result_df.to_csv('data/predictions.csv', index=False)

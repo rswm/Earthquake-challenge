@@ -2,40 +2,84 @@ from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import xgboost as xgb
 from sklearn.metrics import accuracy_score
+import numpy as np
 
 
-def tune_model(X_train, y_train, X_val, y_val, parameters, infolist, model='XBG'):
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+import xgboost as xgb
+import pandas as pd
 
-    '''Tunes the model according to CV data and returns the best model and its score'''
-    if model == 'RandomForest':
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+import xgboost as xgb
+import pandas as pd
 
-        model = RandomForestClassifier(params, random_state=42)
-        model.fit(X_train, y_train)
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
+import xgboost as xgb
 
-        # Predictions
-        preds_prob = model.predict(X_val)
-        preds = preds_prob > 0.5
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
+import xgboost as xgb
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
+import xgboost as xgb
+
+import xgboost as xgb
+
+def tune_model(X_train, y_train, X_test, y_test, parameters, infolist, model='XGB'):
     
+    # Initialize the label encoder
+    label_encoder = LabelEncoder()
+    
+    # Encode the labels for both training and testing
+    y_train_encoded = label_encoder.fit_transform(y_train)
+    y_test_encoded = label_encoder.transform(y_test)
+    
+    if model == 'RandomForest':
+        model = RandomForestClassifier(**parameters, random_state=42)
+        model.fit(X_train, y_train_encoded)
+        preds_encoded = model.predict(X_test)
     else:
         params = {    
             'booster': 'gbtree',
             'objective': 'multi:softmax',
+            'num_class': len(set(y_train_encoded))  # Dynamically set based on unique encoded labels
         }
         params.update(parameters)
-
-        d_train = xgb.DMatrix(X_train, label=y_train)
-        d_val = xgb.DMatrix(X_val, label=y_val)
-        model = xgb.train(params, d_train, num_boost_round=100, evals=[(d_val, "Test")], early_stopping_rounds=10, num_class=3)
-
-        # Predictions
-        preds_prob = model.predict(d_val)
-        preds = preds_prob > 0.5
-
-
         
-    infolist.append({'model': model, 'parameters': parameters, 'score': accuracy_score(y_val, preds)})
+        # Create DMatrix objects with both features and labels
+        d_train = xgb.DMatrix(X_train, label=y_train_encoded)
+        d_test = xgb.DMatrix(X_test, label=y_test_encoded)
         
-    return model, accuracy_score(y_val, preds)
+        model = xgb.train(params, d_train, num_boost_round=100, evals=[(d_test, "Test")], early_stopping_rounds=10)
+        preds_encoded = model.predict(d_test)
+    
+    # Decode the predictions back to the original labels
+    preds_encoded = preds_encoded.astype(int)  # Ensure integer values
+    preds = label_encoder.inverse_transform(preds_encoded)
+
+
+    # Calculate accuracy score using the original labels
+    accuracy = accuracy_score(y_test, preds)
+
+    # Append the model details and accuracy to infolist
+    infolist.append({'model': model, 'parameters': parameters, 'score': accuracy})
+
+    return model, accuracy
+
+
+
+
+
+
+
+
 
 
 def prediction_to_csv(model, X_test):
