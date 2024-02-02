@@ -25,13 +25,20 @@ def FeatureEngineering():
 
     #Feature engineering:
     
+
+
+
+    #Encode categoricals 
+
+    #for column in df.columns:
+    #    if df[column].dtype == 'object' or df[column].dtype.name == 'category':
+    #        df[column] = pd.factorize(df[column])[0]
+
+
     #Label encode geo levels
 
     cdf['geo_level_1_id'] = cdf['geo_level_1_id'].astype(object)
     cdf['geo_level_2_id'] = cdf['geo_level_2_id'].astype(object)
     cdf['geo_level_3_id'] = cdf['geo_level_3_id'].astype(object)
-
-
+    
     return cdf
-
-FeatureEngineering()
