@@ -31,6 +31,10 @@ def FeatureEngineering():
     cdf['geo_level_2_id'] = cdf['geo_level_2_id'].astype(object)
     cdf['geo_level_3_id'] = cdf['geo_level_3_id'].astype(object)
 
+    testv['geo_level_1_id'] = testv['geo_level_1_id'].astype(object)
+    testv['geo_level_2_id'] = testv['geo_level_2_id'].astype(object)
+    testv['geo_level_3_id'] = testv['geo_level_3_id'].astype(object)
+
 
     return cdf
 
