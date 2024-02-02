@@ -11,11 +11,19 @@ def tune_model(X_train, y_train, n_estimators, max_depth=5):
 
 
 
-def prediction_to_csv(model):
 
+import pandas as pd
+import numpy as np
+
+def prediction_to_csv(model):
+    # Read the test data
     X_test = pd.read_csv('data/test_values.csv')
-    X_test = X_test.age
-    
-    return X_test
-    # Set index=False to avoid writing row numbers as a column in the csv file
-    #model.predict(X_test).to_csv('data/predictions.csv', index=False)   
+
+    # Select only the "age" column
+    X_test_age = X_test[['age']]
+
+    # Make predictions using the selected column
+    y_pred = model.predict(X_test_age)
+
+    # Save the predictions to a CSV file
+    return np.savetxt('data/predictions.csv',X_test, y_pred, delimiter=',', fmt='%d')
