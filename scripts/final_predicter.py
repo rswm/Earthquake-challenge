@@ -31,7 +31,7 @@ def run_and_save(fitted_model, selected_test_df, building_id):
 
     # Generate a timestamp for the filename
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    filename = f'data/predictions_{timestamp}.csv'
+    filename = f'data/output/predictions_{timestamp}.csv'
 
     # Save the combined DataFrame to a CSV file with a timestamp in the filename
     result_df.to_csv(filename, index=False)

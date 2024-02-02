@@ -6,9 +6,9 @@ import numpy as np
 
 def FeatureEngineering(drop_non_numerical=False, drop_empty_rows=False):
     # Import data
-    train_values = 'data/train_values.csv'
-    train_labels = 'data/train_labels.csv'
-    test_values = 'data/test_values.csv'
+    train_values = 'data/input/train_values.csv'
+    train_labels = 'data/input/train_labels.csv'
+    test_values = 'data/input/test_values.csv'
 
     # Load data
     tv = pd.read_csv(train_values)
@@ -29,6 +29,7 @@ def FeatureEngineering(drop_non_numerical=False, drop_empty_rows=False):
         testdf = testdf.dropna()
 
     return cdf, testdf
+
 
 
 def mean_encode(dataframe, target_variable, columns_to_encode):
