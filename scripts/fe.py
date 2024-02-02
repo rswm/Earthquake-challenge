@@ -31,18 +31,20 @@ def FeatureEngineering(drop_non_numerical=False, drop_empty_rows=False):
     return cdf, testdf
 
 
-
-#Feature engineering:
-    #Mean encode geo levels 1, 2 and 3
+def mean_encode(dataframe, target_variable, columns_to_encode):
     """
-    mean_encoding1 = cdf.groupby('geo_level_1_id')['damage_grade'].mean()
-    mean_encoding2 = cdf.groupby('geo_level_2_id')['damage_grade'].mean()
-    mean_encoding3 = cdf.groupby('geo_level_3_id')['damage_grade'].mean()
+    Perform mean encoding on specified columns of a DataFrame.
 
-    cdf['geo_level_1_id_mean_encoded'] = cdf['geo_level_1_id'].map(mean_encoding1)
-    cdf['geo_level_2_id_mean_encoded'] = cdf['geo_level_2_id'].map(mean_encoding2)
-    cdf['geo_level_3_id_mean_encoded'] = cdf['geo_level_3_id'].map(mean_encoding3)
-    testdf['geo_level_1_id_mean_encoded'] = testdf['geo_level_1_id'].map(mean_encoding1)
-    testdf['geo_level_2_id_mean_encoded'] = testdf['geo_level_2_id'].map(mean_encoding2)
-    testdf['geo_level_3_id_mean_encoded'] = testdf['geo_level_3_id'].map(mean_encoding3)
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame containing the data.
+    - target_variable (str): The name of the target variable column.
+    - columns_to_encode (list of str): List of column names to be mean encoded.
+
+    Returns:
+    - pd.DataFrame: A DataFrame with the specified columns mean encoded.
     """
+    encoded_df = dataframe.copy()
+    for column in columns_to_encode:
+        means = encoded_df.groupby(column)[target_variable].mean()
+        encoded_df[column] = encoded_df[column].map(means)
+    return encoded_df
