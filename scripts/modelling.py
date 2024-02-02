@@ -19,13 +19,13 @@ def tune_model(X_train, y_train, X_val, y_val, parameters, infolist, model='XBG'
     else:
         params = {    
             'booster': 'gbtree',
-            'objective': 'binary:logistic',
+            'objective': 'multi:softmax',
         }
         params.update(parameters)
 
         d_train = xgb.DMatrix(X_train, label=y_train)
         d_val = xgb.DMatrix(X_val, label=y_val)
-        model = xgb.train(params, d_train, num_boost_round=100, evals=[(d_val, "Test")], early_stopping_rounds=10)
+        model = xgb.train(params, d_train, num_boost_round=100, evals=[(d_val, "Test")], early_stopping_rounds=10, num_class=3)
 
         # Predictions
         preds_prob = model.predict(d_val)
