@@ -4,9 +4,9 @@ def FeatureEngineering():
     
     #Import data
 
-    train_values = '../data/train_values.csv'
-    train_labels  = '../data/train_labels.csv'
-    test_values = '../data/test_values.csv'
+    train_values = 'data/train_values.csv'
+    train_labels  = 'data/train_labels.csv'
+    test_values = 'data/test_values.csv'
 
     #Load data
 
