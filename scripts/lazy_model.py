@@ -18,6 +18,9 @@ from sklearn.metrics import mean_absolute_error
 
 def lazy_model(X_train, X_test, y_train, y_test, model=None):
     """
+    
+    
+    
     Train a RandomForestClassifier model and calculate Mean Absolute Error (MAE).
 
     Parameters:
@@ -31,6 +34,8 @@ def lazy_model(X_train, X_test, y_train, y_test, model=None):
     - Fitted model
     - MAE
     """
+    rf_classifier = RandomForestClassifier(n_estimators=5, max_depth=5, random_state=0)
+    
     if model is None:
         # Initialize the model with default hyperparameters
         model = RandomForestClassifier(n_estimators=5, max_depth=5, random_state=0)

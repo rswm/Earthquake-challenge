@@ -31,6 +31,7 @@ def tune_model(X_train, y_train, X_val, y_val, parameters, infolist, model='XBG'
         preds_prob = model.predict(d_val)
         preds = preds_prob > 0.5
 
+
         
     infolist.append({'model': model, 'parameters': parameters, 'score': accuracy_score(y_val, preds)})
         
