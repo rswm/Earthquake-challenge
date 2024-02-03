@@ -3,34 +3,8 @@ import pandas as pd
 import xgboost as xgb
 from sklearn.metrics import accuracy_score
 import numpy as np
+from sklearn.preprocessing import LabelEncoder
 
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-import xgboost as xgb
-import pandas as pd
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-import xgboost as xgb
-import pandas as pd
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
-import xgboost as xgb
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
-import xgboost as xgb
-
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
-import xgboost as xgb
-
-import xgboost as xgb
 
 def tune_model(X_train, y_train, X_test, y_test, parameters, infolist, model='XGB'):
     

@@ -9,7 +9,16 @@ from sklearn.preprocessing import LabelEncoder
 import numpy as np
 
 
-def find_best_score(X_train, y_train, start, stop, increment, learning_rates, model='XGB'):
+def find_best_score(X_train, y_train, start, stop, increment, learning_rates, model='XGB', skip_parameter_tuning=False):
+    if skip_parameter_tuning:
+        # Use default hyperparameters
+        best_params = {
+            'learning_rate': 0.1,
+            'max_depth': 3,  # Set your default hyperparameters here
+            'n_estimators': 100
+        }
+        best_scores = {}  # Placeholder for scores
+        return best_params
     
     # Initialize the label encoder
     label_encoder = LabelEncoder()
