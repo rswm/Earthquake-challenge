@@ -1,0 +1,10 @@
+# Exclude common version control files and directories
+.git
+.gitignore
+
+# Exclude temporary and build files
+__pycache__
+*.pyc
+
+# Exclude environment
+new_env/
