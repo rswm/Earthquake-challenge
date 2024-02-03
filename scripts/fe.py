@@ -49,3 +49,41 @@ def mean_encode(dataframe, target_variable, columns_to_encode):
         means = encoded_df.groupby(column)[target_variable].mean()
         encoded_df[column] = encoded_df[column].map(means)
     return encoded_df
+
+
+
+def compute_mean_encodings(dataframe, target_variable, columns_to_encode):
+    """
+    Compute mean encodings for specified columns based on the target variable.
+
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame containing the training data.
+    - target_variable (str): The name of the target variable column.
+    - columns_to_encode (list of str): List of column names for which to compute mean encodings.
+
+    Returns:
+    - dict: A dictionary where keys are column names and values are Series mapping categories to mean values.
+    """
+    mean_encodings = {}
+    for column in columns_to_encode:
+        means = dataframe.groupby(column)[target_variable].mean()
+        mean_encodings[column] = means
+    return mean_encodings
+
+
+def apply_mean_encodings(dataframe, mean_encodings):
+    """
+    Apply precomputed mean encodings to specified columns of a DataFrame.
+
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame to encode.
+    - mean_encodings (dict): Precomputed mean encodings for each column.
+
+    Returns:
+    - pd.DataFrame: The DataFrame with mean encoded columns.
+    """
+    encoded_df = dataframe.copy()
+    for column, means in mean_encodings.items():
+        # Apply precomputed means and fill missing values for unseen categories
+        encoded_df[column] = encoded_df[column].map(means).fillna(means.mean())
+    return encoded_df
