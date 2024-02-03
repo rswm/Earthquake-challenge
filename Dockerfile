@@ -13,9 +13,6 @@ COPY . /app
 # Install build tools and development headers
 RUN apt-get update && apt-get install -y gcc python3-dev
 
-# Change ownership of the working directory to allow write permissions
-RUN chown -R jovyan /app
-
 # Switch back to the non-root user used by the base image
 USER $NB_UID
 
