@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 
-def tune_model(X_train, y_train, X_test, y_test, parameters, infolist, model='XGB'):
+def tune_model(X_train, y_train, X_test, y_test, parameters, infolist=None, model='XGB'):
     
     # Initialize the label encoder
     label_encoder = LabelEncoder()
@@ -42,9 +42,10 @@ def tune_model(X_train, y_train, X_test, y_test, parameters, infolist, model='XG
     # Calculate accuracy score using the original labels
     accuracy = accuracy_score(y_test, preds)
 
-    # Append the model details and accuracy to infolist
-    infolist.append({'model': model, 'parameters': parameters, 'score': accuracy})
-
+    # Append the model details and accuracy to infolist if infolist is not None
+    if infolist is not None:
+        infolist.append({'model': model, 'parameters': parameters, 'score': accuracy})
+        
     return model, accuracy
 
 
